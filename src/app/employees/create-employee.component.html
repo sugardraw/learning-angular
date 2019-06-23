@@ -1,0 +1,185 @@
+<form #employeeForm="ngForm" (ngSubmit)="saveEmployee(employeeForm)">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Create Employee
+      </h3>
+    </div>
+    <div
+      class="panel-body"
+      [class.has-error]="name.invalid && name.touched"
+      [class.has-success-own-class]="name.valid"
+    >
+      <div class="from-group">
+        <label for="name" class="control-label">Full Name</label>
+        <input
+          type="text"
+          name="name"
+          [(ngModel)]="employee.name"
+          id="name"
+          class="form-control"
+          required
+          #name="ngModel"
+          #fullNameStyle
+        />
+        <span class="help-block" *ngIf="name.invalid && name.touched">
+          Name is require
+        </span>
+      </div>
+
+      <div class="from-group">
+        <label for="email">Email</label>
+        <input
+          type="text"
+          name="email"
+          id="email"
+          [(ngModel)]="employee.email"
+          class="form-control"
+        />
+      </div>
+
+      <div class="from-group">
+        <label for="phoneNumber">phone Number</label>
+        <input
+          type="text"
+          name="phoneNumber"
+          id="phoneNumber"
+          [(ngModel)]="employee.phoneNumber"
+          class="form-control"
+        />
+      </div>
+
+      <div class="from-group">
+        <label>Contact Preference</label>
+        <div class="form-control">
+          <label class="radio-inline">
+            <input
+              type="radio"
+              [(ngModel)]="employee.contactPreference"
+              value="Email"
+              name="contactPreference"
+            />
+            Email
+          </label>
+          <label class="radio-inline">
+            <input
+              [(ngModel)]="employee.contactPreference"
+              type="radio"
+              value="Phone"
+              name="contactPreference"
+            />
+            Phone
+          </label>
+        </div>
+      </div>
+
+      <div class="from-group">
+        <label>Gender</label>
+        <div class="form-control">
+          <label class="radio-inline">
+            <input
+              type="radio"
+              [(ngModel)]="employee.gender"
+              value="male"
+              name="gender"
+            />
+            Male
+          </label>
+          <label class="radio-inline">
+            <input
+              [(ngModel)]="employee.gender"
+              type="radio"
+              value="female"
+              name="gender"
+            />
+            Female
+          </label>
+        </div>
+      </div>
+
+      <div class="from-group">
+        <div class="form-control">
+          <label class="checkbox-inline">
+            <input type="checkbox" [(ngModel)]="employee.isActive" name="isActive" />
+            Is Active
+          </label>
+        </div>
+      </div>
+
+      <div class="from-group">
+        <label for="department" class="checkbox-inline">
+          Department
+        </label>
+        <select
+          name="department"
+          id="department"
+          [(ngModel)]="employee.department"
+          class="from-control"
+        >
+          <option *ngFor="let dept of departments" [value]="dept.id">
+            {{ dept.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="from-group col-md-5">
+          <label for="dateOfBirth">Date of Birth</label>
+          <input
+            bsDatepicker
+            [bsConfig]="datePickerConfig"
+            placement="right"
+            type="text"
+            name="dateOfBirth"
+            id="dateOfBirth"
+            [(ngModel)]="employee.dateOfBirth"
+            class="form-control"
+          />
+          <label for="phonePath">photo Path</label>
+          <input
+            type="text"
+            name="photoPath"
+            id="photoPath"
+            [(ngModel)]="employee.photoPath"
+            class="form-control"
+          />
+        </div>
+        <div class="panel-footer">
+          <button
+            (click)="togglePhotoPreview()"
+            type="button"
+            class="btn btn-primary"
+          >
+            {{ previewPhoto ? "Hide " : "Show " }} Preview Button
+          </button>
+        </div>
+
+        <div class="form-group">
+          <img
+            [src]="photoPath"
+            height="200"
+            width="200"
+            *ngIf="previewPhoto"
+            [alt]="photoPath"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button
+        type="submit"
+        [disabled]="employeeForm.invalid"
+        class="btn btn-primary"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</form>
+
+{{ employeeForm.value | json }}
+
+<br />
+<br />
+
+Our Employee Model: {{ employee | json }}
