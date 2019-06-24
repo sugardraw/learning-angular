@@ -53,8 +53,8 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   ngOnInit() {}
-  saveEmployee(ngForm: NgForm): void {
-    console.log(ngForm.value);
+  saveEmployee(newEmployee: Employee): void {
+    console.log(newEmployee);
   }
   onBlur(control, controlStyle) {
 
