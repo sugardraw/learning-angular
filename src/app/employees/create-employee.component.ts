@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Department } from '../models/department.model';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker/public_api';
 import { Employee } from '../models/employee.model';
+import { EmployeeService } from './services/employee.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-employee',
@@ -14,6 +16,7 @@ export class CreateEmployeeComponent implements OnInit {
   previewPhoto = false;
   datePickerConfig: Partial<BsDatepickerConfig>;
   department = 3;
+
   employee: Employee = {
     id: null,
     name: null,
@@ -22,9 +25,9 @@ export class CreateEmployeeComponent implements OnInit {
     phoneNumber: null,
     contactPreference: null,
     dateOfBirth: null,
-    department: null,
+    department: 'select',
     isActive: null,
-    photoPath: null,
+    photoPath: null
   };
 
   departments: Department[] = [
@@ -34,7 +37,10 @@ export class CreateEmployeeComponent implements OnInit {
     { id: 4, name: 'Pyroll' },
     { id: 5, name: 'Admin' }
   ];
-  constructor() {
+  constructor(
+    private _employeeService: EmployeeService,
+    private _router: Router
+  ) {
     this.datePickerConfig = Object.assign(
       {},
 
@@ -53,13 +59,14 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   ngOnInit() {}
-  saveEmployee(newEmployee: Employee): void {
-    console.log(newEmployee);
+  saveEmployee(): void {
+    // this.employee.department = this.departments[this.employee.department].name;
+    this._employeeService.save(this.employee);
+    this._router.navigate(['list']);
   }
   onBlur(control, controlStyle) {
-
-      if ( control.valid ) {
-        console.log(control, controlStyle);
-      }
+    if (control.valid) {
+      console.log(control, controlStyle);
+    }
   }
 }
